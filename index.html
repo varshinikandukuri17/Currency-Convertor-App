@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Currency Converter</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style type="text/css">
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f2f2f2;
+    }
+    .box {
+      width: 300px;
+      margin: 50px auto;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 15px;
+    }
+    h2 {
+      text-align: center;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 6px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #ffcc00;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e6b800;
+    }
+    .result {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .error {
+      margin-top: 10px;
+      color: red;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Currency Converter</h2>
+    <select id="from"></select>
+    <select id="to"></select>
+    <input type="text" id="amount" placeholder="Enter amount">
+    <button id="convertBtn">Convert</button>
+    <div id="result" class="result"></div>
+    <div id="errorMsg" class="error"></div>
+  </div>
+
+  <script type="text/javascript">
+    var API = 'https://api.frankfurter.app';
+    var from = document.getElementById('from');
+    var to = document.getElementById('to');
+    var amount = document.getElementById('amount');
+    var result = document.getElementById('result');
+    var errorMsg = document.getElementById('errorMsg');
+    var convertBtn = document.getElementById('convertBtn');
+
+    function loadCurrencies() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', API + '/currencies', true);
+      xhr.onload = function() {
+        var data = JSON.parse(xhr.responseText);
+        for (var code in data) {
+          from.innerHTML += '<option value="' + code + '">' + code + ' - ' + data[code] + '</option>';
+          to.innerHTML += '<option value="' + code + '">' + code + ' - ' + data[code] + '</option>';
+        }
+        from.value = 'USD';
+        to.value = 'INR';
+      };
+      xhr.send();
+    }
+
+    function convert() {
+      errorMsg.innerHTML = '';
+      result.innerHTML = '';
+      var amt = amount.value;
+      var f = from.value;
+      var t = to.value;
+      if (amt === '' || isNaN(amt) || Number(amt) <= 0) {
+        errorMsg.innerHTML = 'Enter a valid amount';
+        return;
+      }
+      if (f === t) {
+        errorMsg.innerHTML = 'Choose different currencies';
+        return;
+      }
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', API + '/latest?amount=' + amt + '&from=' + f + '&to=' + t, true);
+      xhr.onload = function() {
+        var data = JSON.parse(xhr.responseText);
+        result.innerHTML = amt + ' ' + f + ' = ' + data.rates[t] + ' ' + t;
+      };
+      xhr.onerror = function() {
+        errorMsg.innerHTML = 'Error fetching data';
+      };
+      xhr.send();
+    }
+
+    convertBtn.onclick = convert;
+    amount.onkeypress = function(e) {
+      if (e.keyCode === 13) convert();
+    };
+    loadCurrencies();
+  </script>
+</body>
+</html>
