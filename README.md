@@ -15,9 +15,9 @@ It fetches real-time exchange rates from the [Frankfurter API](https://www.frank
 ---
 
 ## 🛠 Tech Stack
-- *HTML 4* for structure  
-- *CSS 2* for styling  
-- *JavaScript (Vanilla)* for API calls and logic  
+- *HTML  
+- *CSS  
+- *JavaScript 
 
 ---
 ## 🚀 Live Demo
