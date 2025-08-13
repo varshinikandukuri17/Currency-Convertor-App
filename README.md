@@ -5,12 +5,6 @@ It fetches real-time exchange rates from the [Frankfurter API](https://www.frank
 
 ---
 
-## 🚀 Live Demo
-[*View Live Project Here*](https://your-netlify-site-name.netlify.app)  
-(Replace with your actual Netlify link)
-
----
-
 ## 📌 Features
 - Convert from one currency to another in real time
 - Supports multiple international currencies
@@ -26,5 +20,9 @@ It fetches real-time exchange rates from the [Frankfurter API](https://www.frank
 - *JavaScript (Vanilla)* for API calls and logic  
 
 ---
+## 🚀 Live Demo
+[*View Live Project Here*](https://your-netlify-site-name.netlify.app)  
 
-## 📂 Project Structure# Currency-Convertor-App
+
+
+
